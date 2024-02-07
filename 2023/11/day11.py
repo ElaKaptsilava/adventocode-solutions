@@ -1,50 +1,53 @@
-from copy import deepcopy
 from typing import List
 
 T = List[List[str]]
 
 
 def expand_the_galaxy[T](puzzle: T) -> T:
-    new_galaxy = deepcopy(puzzle)
-    for OX, line in enumerate(puzzle):
-        column, column_coordinates = [], []
-        for OY in range(len(line)):
-            column.append(puzzle[OY][OX])
-            column_coordinates.append((OY, OX))
+    point1 = 0
+    while point1 < len(puzzle[0]):
+        column = [puzzle[index][point1] for index in range(len(puzzle))]
         if len(set(column)) == 1:
-            for X, Y in column_coordinates:
-                new_galaxy[X].insert(Y, '.')
+            for X in range(len(puzzle)):
+                puzzle[X].insert(point1, '.')
+            point1 += 1
+        point1 += 1
+    point1 = 0
+    while point1 < len(puzzle):
+        line = puzzle[point1]
         if len(set(line)) == 1:
-            new_galaxy.insert(OX, line)
-    return new_galaxy
+            puzzle.insert(point1, line)
+            point1 += 1
+        point1 += 1
+    return puzzle
 
 
 def find_hashtag_coordinates(expanded_galaxy):
     coordinates = []
-    for OX, line in enumerate(expanded_galaxy):
-        for OY, char in enumerate(line):
+    for x, line in enumerate(expanded_galaxy):
+        for y, char in enumerate(line):
             if char == '#':
-                coordinates.append((OX, OY))
+                coordinates.append((x, y))
     return coordinates
+
+
+def calculate_distance(hashtag_coordinates):
+    result = 0
+    for index, coordinates in enumerate(hashtag_coordinates):
+        next_index = index + 1
+        while next_index < len(hashtag_coordinates):
+            x1, x2 = coordinates
+            y1, y2 = hashtag_coordinates[next_index]
+            result += abs(y1 - x1) + abs(y2 - x2)
+            next_index += 1
+    return result
 
 
 with open('puzzle11.txt', 'r') as puzzle_input:
     galaxy = [list(line) for line in puzzle_input.read().split('\n')]
     expanded_galaxy = expand_the_galaxy(galaxy)
     hashtag_coordinates = find_hashtag_coordinates(expanded_galaxy)
-    n = []
-    for index, coordinates in enumerate(hashtag_coordinates):
-        next_index = index + 1
-        while next_index < len(hashtag_coordinates):
-            x1, x2 = coordinates
-            y1, y2 = hashtag_coordinates[next_index]
-            n.append((abs(y1 - x1) + abs(y2 - x2)))
-            next_index += 1
-    # print(len(n))
-    # x = 0
-    # for y in range(len(hashtag_coordinates)-1, 0, -1):
-    #     x += y
-    # print(x)
-    print(sum(n))
+    x = calculate_distance(hashtag_coordinates)
+    print(x)
 
-# 10876718
+
