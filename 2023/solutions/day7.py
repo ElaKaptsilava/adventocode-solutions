@@ -13,7 +13,7 @@ types = {
     (1, 1, 1, 1, 1): 1,
 }
 
-with open("puzzle7.txt", "r") as puzzle_file:
+with open("../imputs/puzzle7.txt", "r") as puzzle_file:
     puzzle_read = puzzle_file.read().splitlines()
 
 

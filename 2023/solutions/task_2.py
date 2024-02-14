@@ -16,7 +16,7 @@ def filter_games(item):
 
 def task_2_1():
     all_games = 0
-    with open("task_2.txt") as file:
+    with open("../imputs/task_2.txt") as file:
         for line in file.readlines():
             new_line = line.replace(" ", "")
             find_all = re.findall(r"(?P<AMOUNT>[0-9]+)(?P<COLOR>[a-z]+)", new_line)
@@ -34,7 +34,7 @@ print(task_2_1())
 
 def task_2_2():
     all_games = 0
-    with open("task_2.txt") as file:
+    with open("../imputs/task_2.txt") as file:
         for line in file.readlines():
             find_all = re.findall(
                 r"(?P<AMOUNT>[0-9]+)(?P<COLOR>[a-z]+)", line.replace(" ", "")
