@@ -1,4 +1,4 @@
-with open('../imputs/input18.txt', 'r') as plan:
+with open('../inputs/input18.txt', 'r') as plan:
     dig_plan = plan.read().split('\n')
     dig_plan = list(map(lambda item: item.split(' '), dig_plan))
     directions, step, color = list(map(list, zip(*dig_plan)))

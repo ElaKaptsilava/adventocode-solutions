@@ -1,7 +1,7 @@
 import re
 from functools import reduce
 
-with open("../imputs/puzzle_input_5.txt") as puzzle:
+with open("../inputs/puzzle_input_5.txt") as puzzle:
     seeds, *mappings = puzzle.read().split("\n\n")
     seeds = map(int, seeds.split()[1:])
 

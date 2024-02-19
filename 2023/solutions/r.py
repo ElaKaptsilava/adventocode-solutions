@@ -11,7 +11,7 @@ def sorted_by_stronger_cards(cards):
     return type_, *map(deck.index, cards)
 
 
-with open("../imputs/puzzle7.txt", "r") as file:
+with open("../inputs/puzzle7.txt", "r") as file:
     games = dict(dough.split() for dough in file)
     hands = sorted(games, key=sorted_by_stronger_cards)
     result = 0
@@ -42,7 +42,7 @@ def sorted_by_stronger_cards(cards):
     return type_, *map(deck.index, cards)
 
 
-with open("../imputs/puzzle7.txt", "r") as file:
+with open("../inputs/puzzle7.txt", "r") as file:
     games = dict(dough.split() for dough in file)
     hands = sorted(games, key=sorted_by_stronger_cards)
     result = [int(games[hand]) * row for row, hand in enumerate(hands, 1)]

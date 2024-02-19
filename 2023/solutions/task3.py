@@ -2,7 +2,7 @@ import re
 
 
 def task_3_1():
-    with open("../imputs/task_3.txt") as file:
+    with open("../inputs/task_3.txt") as file:
         read_file = file.read()
         lines = read_file.split("\n")
 
@@ -33,7 +33,7 @@ def task_3_1():
 
 
 def task_3_2():
-    with open("../imputs/task_3.txt") as file:
+    with open("../inputs/task_3.txt") as file:
         read_file = file.read()
         lines = read_file.split("\n")
         gears = {}

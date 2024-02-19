@@ -57,7 +57,7 @@ class SymbolDirections:
         return self.symbols_direction[self.symbol][1]
 
 
-with open("../imputs/p10.txt", "r") as file:
+with open("../inputs/p10.txt", "r") as file:
     r_file = file.read()
     start, scheme = None, []
     for x, line in enumerate(r_file.split("\n")):

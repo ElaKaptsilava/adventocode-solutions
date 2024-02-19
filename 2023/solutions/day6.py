@@ -1,6 +1,6 @@
 import re
 
-with open("../imputs/puzzle6.txt", "r") as puzzle_file:
+with open("../inputs/puzzle6.txt", "r") as puzzle_file:
     read_puzzle = puzzle_file.read().splitlines()
     *time_k, time_mapping = read_puzzle[0].split(":")
     *distance_k, record_mapping = read_puzzle[1].split(":")

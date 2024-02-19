@@ -43,7 +43,7 @@ def calculate_distance(hashtag_coordinates):
     return result
 
 
-with open("../imputs/puzzle11.txt", "r") as puzzle_input:
+with open("../inputs/puzzle11.txt", "r") as puzzle_input:
     galaxy = [list(line) for line in puzzle_input.read().split("\n")]
     expanded_galaxy = expand_the_galaxy(galaxy)
     hashtag_coordinates = find_hashtag_coordinates(expanded_galaxy)
@@ -80,7 +80,7 @@ def older_the_galaxy[T](puzzle: T) -> T:
     return puzzle
 
 
-with open("../imputs/puzzle11.txt", "r") as puzzle_input:
+with open("../inputs/puzzle11.txt", "r") as puzzle_input:
     galaxy = [list(line) for line in puzzle_input.read().split("\n")]
     expanded_galaxy = older_the_galaxy(galaxy)
     hashtag_coordinates = find_hashtag_coordinates(expanded_galaxy)

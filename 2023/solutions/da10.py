@@ -33,14 +33,13 @@
             - condition: column - 1 >= 0,
 
 """
-with open("../imputs/puzzle10.txt", "r") as grid:
-    g = {}
-    start = {}
+with open("../inputs/puzzle10.txt", "r") as grid:
+    pipe_maze, start = {}, None
     for row, line in enumerate(grid):
         for column, char in enumerate(line.strip()):
-            g[complex(column, row)] = char
+            pipe_maze[complex(column, row)] = char
             if char == 'S':
-                start[char] = complex(column, row)
+                start = complex(column, row)
 
 directions_item = {
     -1j: {("L", "|", "J"): ["|", "7", "F"]},
@@ -50,40 +49,38 @@ directions_item = {
 }
 
 
-def is_allowed(pos, direction):
-    pipe, pipe_to_connect = g[pos], g[pos + direction]
-    if pipe_to_connect not in [".", 'S']:
+def is_allowed(pos: complex, direction: complex, pipe_maze: dict) -> float:
+    pipe, pipe_to_connect = pipe_maze[pos], pipe_maze[pos + direction]
+    if pipe_to_connect == 'S':
+        return True
+    if pipe_to_connect != ".":
         for current, to_connect in directions_item[direction].items():
             if pipe in current and pipe_to_connect in to_connect:
                 return True
     return False
 
 
-def go(start):
+def go(start: complex, pipe_maze: dict) -> float:
     result = []
     ways = [start + direct for direct in list(directions_item)]
-    p = 0
-    while p < len(ways):
-        passed = []
-        todo = [ways[p]]
+    for way in ways:
+        todo, passed = [way], []
         while todo:
-            position = todo.pop()
-            if position in passed:
+            if (position := todo.pop()) in passed:
                 break
-            passed.append(position)
-            point = 0
-            while point < 4:
-                direct = list(directions_item)[point]
-                if g[position + direct] == 'S' and len(passed) > 5:
-                    result.append(len(passed))
-                    todo.clear()
+            if pipe_maze[position] == 'S':
+                if len(passed) > 5:
+                    result.append(len(passed) + 1)
                     break
-                if position + direct not in passed and is_allowed(position, direct):
+                else:
+                    continue
+            passed.append(position)
+            for direct in directions_item:
+                if position + direct not in passed and is_allowed(position, direct, pipe_maze):
                     todo.append(position + direct)
-                point += 1
-        p += 1
-    print(result)
     return max(result) / 2
 
 
-print(go(start['S']))
+print(go(start, pipe_maze))
+# Part 1: 6867
+# Part 2: 608

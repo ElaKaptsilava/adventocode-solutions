@@ -1,7 +1,7 @@
 import itertools
 from collections import OrderedDict
 
-with open("../imputs/puzzle8.txt", "r") as puzzle:
+with open("../inputs/puzzle8.txt", "r") as puzzle:
     instructions, *lines = puzzle.read().split("\n\n")
     instructions = itertools.cycle(list(instructions))
     puz = OrderedDict()

@@ -2,7 +2,7 @@ import re
 
 
 def day1_1():
-    with open("../imputs/task_1.txt", "r") as txt:
+    with open("../inputs/task_1.txt", "r") as txt:
         result = 0
         for text in txt.read().split():
             find_all = re.sub(r"[\D]", "", text)
@@ -28,7 +28,7 @@ def day1_2():
         "eight": "8",
         "nine": "9",
     }
-    with open("../imputs/task_1.txt", "r") as txt:
+    with open("../inputs/task_1.txt", "r") as txt:
         result = 0
         for line in txt.read().split():
             find_all_numbers = re.findall(

@@ -1,4 +1,4 @@
-with open("../imputs/puzzle15.txt") as file:
+with open("../inputs/puzzle15.txt") as file:
     read = file.read().split(",")
 
 

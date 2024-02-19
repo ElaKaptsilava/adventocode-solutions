@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-with open("../imputs/puzzle14.txt", "r") as file:
+with open("../inputs/puzzle14.txt", "r") as file:
     input = tuple(file.read().splitlines())
 
 

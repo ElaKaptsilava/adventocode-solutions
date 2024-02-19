@@ -1,6 +1,6 @@
 import queue
 
-with open("../imputs/puzzle9.txt", "r") as puzzle:
+with open("../inputs/puzzle9.txt", "r") as puzzle:
     lines = puzzle.read().split("\n")
     lines = [list(map(int, line.split(" "))) for line in lines]
 

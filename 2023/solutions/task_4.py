@@ -2,7 +2,7 @@ import re
 
 
 def task_4_1():
-    with open("../imputs/puzzle_input_4.txt") as file:
+    with open("../inputs/puzzle_input_4.txt") as file:
         read_file = file.read().replace("  ", " ").splitlines()
         result = 0
         for index, line in enumerate(read_file):
@@ -21,7 +21,7 @@ def task_4_1():
 
 
 def task_4_2():
-    with open("../imputs/puzzle_input_4.txt") as file:
+    with open("../inputs/puzzle_input_4.txt") as file:
         read_file = file.read().replace("  ", " ").splitlines()
         cards_instance = {index: 1 for index in range(1, len(read_file) + 1)}
         result = 0

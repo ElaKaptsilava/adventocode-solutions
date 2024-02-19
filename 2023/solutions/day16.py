@@ -20,7 +20,7 @@
 
 
 """
-with open("../imputs/puzzle16.txt", "r") as grid:
+with open("../inputs/puzzle16.txt", "r") as grid:
     g = {}
     for row, line in enumerate(grid):
         for column, char in enumerate(line.strip()):
