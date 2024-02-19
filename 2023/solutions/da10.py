@@ -33,119 +33,57 @@
             - condition: column - 1 >= 0,
 
 """
-with open("../imputs/p10.txt") as file:
-    maze = list(map(list, file.read().split("\n")))
+with open("../imputs/puzzle10.txt", "r") as grid:
+    g = {}
+    start = {}
+    for row, line in enumerate(grid):
+        for column, char in enumerate(line.strip()):
+            g[complex(column, row)] = char
+            if char == 'S':
+                start[char] = complex(column, row)
 
-start = "S"
-exit_ = "E"
-high = len(maze)
-wight = len(maze[0])
-directions = {
-    "north": {("L", "|", "J", "S"): ["|", "7", "F", "S"]},
-    "east": {("L", "-", "F", "S"): ["-", "7", "J", "S"]},
-    "south": {("|", "7", "F", "S"): ["|", "L", "J", "S"]},
-    "west": {("-", "7", "J", "S"): ["F", "-", "L", "S"]},
+directions_item = {
+    -1j: {("L", "|", "J"): ["|", "7", "F"]},
+    1: {("L", "-", "F"): ["-", "7", "J"]},
+    1j: {("|", "7", "F"): ["|", "L", "J"]},
+    -1: {("-", "7", "J"): ["F", "-", "L"]},
 }
 
 
-def find_start(maze):
-    for row, line in enumerate(maze):
-        if "".join(line).find(start) != -1:
-            return row, line.index(start)
-
-
-def is_allowed(pipe, pipe_to_connect, direction):
-    if pipe == start and pipe_to_connect != ".":
-        return True
-    for current, to_connect in directions[direction].items():
-        if pipe in current and pipe_to_connect in to_connect:
-            return True
+def is_allowed(pos, direction):
+    pipe, pipe_to_connect = g[pos], g[pos + direction]
+    if pipe_to_connect not in [".", 'S']:
+        for current, to_connect in directions_item[direction].items():
+            if pipe in current and pipe_to_connect in to_connect:
+                return True
     return False
 
 
-def go(maze, row=None, column=None, visited=None):
-    if row is None or column is None:
-        row, column = find_start(maze)
-    if visited is None:
-        visited = list()
-    if maze[row][column] == start and len(visited)> 0:
-        return True
-    visited.append((row, column))
-    if (
-        row - 1 >= 0
-        and (row - 1, column) not in visited
-        and is_allowed(
-            pipe=maze[row][column],
-            pipe_to_connect=maze[row - 1][column],
-            direction="north",
-        )
-    ):
-        if go(maze, row - 1, column, visited):
-            return True
-    if (
-        column + 1 < wight
-        and (row, column + 1) not in visited
-        and is_allowed(
-            pipe=maze[row][column],
-            pipe_to_connect=maze[row][column + 1],
-            direction="east",
-        )
-    ):
-        if go(maze, row, column + 1, visited):
-            return True
-    if (
-        row + 1 < high
-        and (row + 1, column) not in visited
-        and is_allowed(
-            pipe=maze[row][column],
-            pipe_to_connect=maze[row + 1][column],
-            direction="south",
-        )
-    ):
-        if go(maze, row + 1, column, visited):
-            return True
-    if (
-        column - 1 >= 0
-        and (row, column - 1) not in visited
-        and is_allowed(
-            pipe=maze[row][column],
-            pipe_to_connect=maze[row][column - 1],
-            direction="west",
-        )
-    ):
-        if go(maze, row, column - 1, visited):
-            return True
-    return False
+def go(start):
+    result = []
+    ways = [start + direct for direct in list(directions_item)]
+    p = 0
+    while p < len(ways):
+        passed = []
+        todo = [ways[p]]
+        while todo:
+            position = todo.pop()
+            if position in passed:
+                break
+            passed.append(position)
+            point = 0
+            while point < 4:
+                direct = list(directions_item)[point]
+                if g[position + direct] == 'S' and len(passed) > 5:
+                    result.append(len(passed))
+                    todo.clear()
+                    break
+                if position + direct not in passed and is_allowed(position, direct):
+                    todo.append(position + direct)
+                point += 1
+        p += 1
+    print(result)
+    return max(result) / 2
 
 
-print(go(maze))
-# def go(maze, row=None, column=None, visited=None):
-#     if row is None or column is None:
-#         row, column = find_start(maze)
-#     if visited is None:
-#         visited = list()
-#     if maze[row][column] == start and len(visited) > 0:
-#         return True, len(visited)
-#     if maze[row][column] != start:
-#         visited.append((row, column))
-#     print(row, column)
-#     if row - 1 >= 0 and (row - 1, column) not in visited:
-#         is_allow = is_allowed(pipe=maze[row][column], pipe_to_connect=maze[row - 1][column], direction="north")
-#         if is_allow and go(maze, row - 1, column, visited):
-#             return True
-#     if column + 1 < wight and (row, column + 1) not in visited:
-#         is_allow = is_allowed(pipe=maze[row][column], pipe_to_connect=maze[row][column + 1], direction="east")
-#         if is_allow and go(maze, row, column + 1, visited):
-#             return True
-#     if row + 1 < wight and (row + 1, column) not in visited:
-#         is_allow = is_allowed(pipe=maze[row][column], pipe_to_connect=maze[row + 1][column], direction="south")
-#         if is_allow and go(maze, row + 1, column, visited):
-#             return True
-#     if column - 1 >= 0 and (row, column - 1) not in visited:
-#         is_allow = is_allowed(pipe=maze[row][column], pipe_to_connect=maze[row][column - 1], direction="west")
-#         if is_allow and go(maze, row, column - 1, visited):
-#             return True
-#     # if maze[row][column] == start and len(visited) > 0:
-#     #     return (len(visited) + 1) / 2
-#     # return False
-#
+print(go(start['S']))

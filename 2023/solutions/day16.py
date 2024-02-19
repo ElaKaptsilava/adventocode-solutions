@@ -20,11 +20,34 @@
 
 
 """
+with open("../imputs/puzzle16.txt", "r") as grid:
+    g = {}
+    for row, line in enumerate(grid):
+        for column, char in enumerate(line.strip()):
+            g[complex(column, row)] = char
 
-splitters = ["|", "\\", "-", "/"]
 
-with open("../imputs/puzzle16.txt", "r") as file:
-    read = list(map(list, file.read().split("\n")))
+def fn(todo):
+    passed = set()
+    while todo:
+        position, direction = todo.pop()
+        while not (position, direction) in passed:
+            passed.add((position, direction))
+            position += direction
+            get_ = g.get(position)
+            match get_:
+                case '|':
+                    direction = 1j; todo.append((position, -direction))
+                case '-':
+                    direction = -1; todo.append((position, -direction))
+                case '/':
+                    direction = -complex(direction.imag, direction.real)
+                case '\\':
+                    direction = complex(direction.imag, direction.real)
+                case None:
+                    break
 
-row = 0
-column = 0
+    return len(set(pos for pos, _ in passed)) - 1
+
+
+print(fn([(-1, 1)]))

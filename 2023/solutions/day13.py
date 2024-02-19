@@ -1,5 +1,3 @@
-from pprint import pprint
-
 with open("../imputs/pzl13.txt", "r") as puzzle:
     patterns = [list(map(list, img.split("\n"))) for img in puzzle.read().split("\n\n")]
     patterns_clm = [list(map(list, zip(*img))) for img in patterns]
