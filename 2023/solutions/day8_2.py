@@ -12,12 +12,21 @@ with open("../inputs/puzzle8.txt", "r") as puzzle:
             "L": line.split(" ")[-2],
             "R": line.split(" ")[-1],
         }
-count = 0
-step = "AAA"
-print(list(instructions))
-while step != "ZZZ":
-    ways = puz[step]
-    step = ways[next(instructions)]
-    count += 1
-z = list(zip([1, 2, 3, 4, 5, 6, 7, 8, 9], range(1, 10)))
 
+steps = [step for step in puz if step.endswith('A')]
+count = 0
+while True:
+    base, instruction = set(), next(instructions)
+    for i, step in enumerate(steps):
+        ways = puz[step]
+        step = ways[instruction]
+        if step.endswith('Z'):
+            base.add(True)
+        else:
+            base.add(False)
+        steps[i] = step
+    count += 1
+    if base == {True, }:
+        break
+
+print(count)
