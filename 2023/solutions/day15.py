@@ -24,7 +24,6 @@ for step in read:
         if label in boxes[box]:
             label_index = boxes[box].index(label)
             boxes[box][label_index] = label
-
         else:
             boxes[box].append(label)
 

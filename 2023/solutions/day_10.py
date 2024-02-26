@@ -27,7 +27,7 @@ from collections import defaultdict
 
 PASSED = defaultdict(list)
 # Z = {"N": "S", "W": "E", "E": "W", "S": "N"}
-# v, h = {"", "S"}, {"W", "E"}
+# value, h = {"", "S"}, {"W", "E"}
 
 
 @dataclasses.dataclass

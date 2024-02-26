@@ -1,24 +1,23 @@
-from functools import cache
+unknown, operational, damaged = '?', '.', '#'
 
-
-@cache
-def recurse(lava, springs, result=0):
-    if not springs:
-        return '#' not in lava
-    current, springs = springs[0], springs[1:]
-    for i in range(len(lava) - sum(springs) - len(springs) - current + 1):
-        if "#" in lava[:i]:
-            break
-        if (nxt := i + current) <= len(lava) and '.' not in lava[i: nxt] and lava[nxt: nxt + 1] != "#":
-            result += recurse(lava[nxt + 1:], springs)
-    return result
-
-
-with open("../inputs/input12.txt", "r") as file:
-    data = [x.split() for x in file.read().splitlines()]
-    p1, p2 = 0, 0
-    for lava, springs in data:
-        print(lava, springs)
-        p1 += recurse(lava, (springs := tuple(map(int, springs.split(",")))))
-        p2 += recurse("?".join([lava] * 5), springs * 5)
-    print(p1, p2)
+with open('../inputs/input12.txt', 'r') as conditions:
+    ways = 0
+    for line in conditions:
+        springs, groups = line.split()
+        groups = [int(n) for n in groups.split(',')]
+        print(springs, groups)
+        positions = {0: 1}
+        for i, group in enumerate(groups):
+            new_positions = {}
+            for key, value in positions.items():
+                for n in range(key, len(springs) - sum(groups[i + 1:]) + len(groups[i + 1:])):
+                    if n + group - 1 < len(springs) and '.' not in springs[n:n + group]:
+                        if (i == len(groups) - 1 and '#' not in springs[n + group:]) or (
+                                i < len(groups) - 1 and n + group < len(springs) and springs[n + group] != '#'):
+                            new_positions[n + group + 1] = new_positions[
+                                                               n + group + 1] + value if n + group + 1 in new_positions else value
+                    if springs[n] == '#':
+                        break
+            positions = new_positions
+        ways += sum(positions.values())
+print(ways)
