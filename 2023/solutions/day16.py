@@ -35,15 +35,15 @@ def floor_will_be_lava(todo, grid):
             passed.add((position, direction))
             position += direction
             match grid.get(position):
-                case '|':
+                case "|":
                     direction = 1j
                     todo.append((position, -direction))
-                case '-':
+                case "-":
                     direction = 1
                     todo.append((position, -direction))
-                case '/':
+                case "/":
                     direction = -complex(direction.imag, direction.real)
-                case '\\':
+                case "\\":
                     direction = complex(direction.imag, direction.real)
                 case None:
                     break
@@ -59,6 +59,7 @@ with open("../inputs/puzzle16.txt", "r") as grid:
         for column, char in enumerate(line.strip()):
             grid_[complex(column, row)] = char
 
+
 def floor_will_be_lava(todo, grid):
     passed = set()
     while todo:
@@ -67,20 +68,21 @@ def floor_will_be_lava(todo, grid):
             passed.add((position, direction))
             position += direction
             match grid.get(position):
-                case '|':
+                case "|":
                     direction = 1j
                     todo.append((position, -direction))
-                case '-':
+                case "-":
                     direction = 1
                     todo.append((position, -direction))
-                case '/':
+                case "/":
                     direction = -complex(direction.imag, direction.real)
-                case '\\':
+                case "\\":
                     direction = complex(direction.imag, direction.real)
                 case None:
                     break
+
+
 s = []
 directions_ = []
 for i in range(len(grid_)):
     s.append(floor_will_be_lava([(-i, 1)], grid_))
-

@@ -21,7 +21,7 @@ with open("../inputs/puzzle10.txt", "r") as grid:
     for row, line in enumerate(grid):
         for column, char in enumerate(line.strip()):
             pipe_maze[complex(column, row)] = char
-            if char == 'S':
+            if char == "S":
                 start = complex(column, row)
 north, east, south, west = -1j, 1, 1j, -1
 directions_item = {
@@ -34,7 +34,7 @@ directions_item = {
 
 def is_allowed(pos: complex, direction: complex, pipe_maze: dict) -> float:
     pipe, pipe_to_connect = pipe_maze[pos], pipe_maze[pos + direction]
-    if pipe_to_connect == 'S':
+    if pipe_to_connect == "S":
         return True
     if pipe_to_connect != ".":
         for current, to_connect in directions_item[direction].items():
@@ -50,7 +50,7 @@ def go(start: complex, pipe_maze: dict) -> float:
         while todo:
             if (position := todo.pop()) in passed:
                 break
-            if pipe_maze[position] == 'S':
+            if pipe_maze[position] == "S":
                 if len(passed) > 5:
                     result.append(len(passed) + 1)
                     break
@@ -58,7 +58,9 @@ def go(start: complex, pipe_maze: dict) -> float:
                     continue
             passed.append(position)
             for direct in directions_item:
-                if position + direct not in passed and is_allowed(position, direct, pipe_maze):
+                if position + direct not in passed and is_allowed(
+                    position, direct, pipe_maze
+                ):
                     todo.append(position + direct)
     return max(result) / 2
 

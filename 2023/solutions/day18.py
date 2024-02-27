@@ -1,13 +1,13 @@
-with open('../inputs/input18.txt', 'r') as plan:
-    dig_plan = plan.read().split('\n')
-    dig_plan = list(map(lambda item: item.split(' '), dig_plan))
+with open("../inputs/input18.txt", "r") as plan:
+    dig_plan = plan.read().split("\n")
+    dig_plan = list(map(lambda item: item.split(" "), dig_plan))
     directions, steps, colors = list(map(list, zip(*dig_plan)))
     steps = list(map(int, steps))
 
 
 def complete_object(border, y, x):
     north, east, south, west = (-1, 0), (0, 1), (1, 0), (0, -1)
-    dir = {'U': north, 'R': east, 'D': south, 'L': west}
+    dir = {"U": north, "R": east, "D": south, "L": west}
     while len(directions) > 0:
         direct, step = directions.pop(0), steps.pop(0)
         yd, xd = dir[direct]
@@ -28,7 +28,7 @@ for i in range(len(laguna) - 1):
 
 perimeter = len(laguna)
 interior_area = abs(area) // 2 - perimeter // 2 + 1
-print('Part 1:', interior_area + perimeter)
+print("Part 1:", interior_area + perimeter)
 
 # matplotlib.image.imsave('name.png', numpy.array(arr))
 
@@ -59,4 +59,4 @@ for i in range(len(laguna) - 1):
 
 perimeter = len(laguna)
 interior_area = abs(area) // 2 - perimeter // 2 + 1
-print('Part 2:', interior_area + perimeter)
+print("Part 2:", interior_area + perimeter)

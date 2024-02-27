@@ -20,4 +20,3 @@ while step != "ZZZ":
     step = ways[next(instructions)]
     count += 1
 z = list(zip([1, 2, 3, 4, 5, 6, 7, 8, 9], range(1, 10)))
-

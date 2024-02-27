@@ -1,8 +1,8 @@
 import numpy
 
-with open('../inputs/puzzle_input_5.txt') as file:
-    read = file.read().split('\n\n')
-    seeds = list(map(int, read.pop(0).replace('seeds:', '').split()))
+with open("../inputs/puzzle_input_5.txt") as file:
+    read = file.read().split("\n\n")
+    seeds = list(map(int, read.pop(0).replace("seeds:", "").split()))
 
 
 def solve(seeds, to_convert):
@@ -10,7 +10,7 @@ def solve(seeds, to_convert):
     for seed in seeds:
         memory = seed
         for source_category in to_convert:
-            for category in source_category.split('\n')[1:]:
+            for category in source_category.split("\n")[1:]:
                 destination, source, length = list(map(int, category.split()))
                 destination_range = range(destination, destination + length)
                 source_range = range(source, source + length)
