@@ -1,50 +1,32 @@
-from copy import deepcopy
+import numpy as np
 
-with open("../inputs/puzzle14.txt", "r") as file:
-    input = tuple(file.read().splitlines())
-
-
-def slide_rocks_north(grid):
-    grid = list(map("".join, zip(*grid)))
-    new_grid = []
-    for row in grid:
-        ordered_rows = []
-        for group in row.split("#"):
-            ordered_rows.append("".join(sorted(group, reverse=True)))
-        new_grid.append("#".join(ordered_rows))
-    return tuple(list(map("".join, zip(*new_grid))))
+m = np.genfromtxt("../inputs/puzzle14.txt", dtype=bytes, comments=None, delimiter=1).astype(str)
+print(m)
 
 
-def cycle(grid):
-    for _ in range(4):
-        grid = slide_rocks_north(grid)
-        grid = tuple(["".join(row[::-1]) for row in zip(*grid)])
-
-    return grid
+def show(m):
+    print(np.sum(m == "O", axis=1) @ np.arange(m.shape[0], 0, -1))
 
 
-solution2 = 0
+def tilt(m):
+    for offset in range(1, m.shape[0]):
+        for row in range(m.shape[0] - offset):
+            selection = (m[row, :] == ".") & (m[row + 1, :] == "O")
+            m[row, selection] = "O"
+            m[row + 1, selection] = "."
 
-grid_slided = slide_rocks_north(input)
-solution1 = 0
-l = len(grid_slided)
-for line in grid_slided:
-    if count_o := line.count("O"):
-        solution1 += count_o * l
-        l -= 1
-print(solution1)
 
-CYCLES = 1000000000
-grid = deepcopy(input)
-for i in range(CYCLES):
-    grid_cycle = cycle(grid)
-    grid = grid_cycle
-    print("end: ", i)
-
-l = len(grid)
-for line in grid:
-    if count_o := line.count("O"):
-        solution2 += count_o * l
-        l -= 1
-
-print(solution2)
+cycles, lookup, found, i = 1000000000 * 4, {}, False, 0
+while i < cycles:
+    tilt(np.rot90(m, (4 - i) % 4))
+    if i == 0:
+        show(m)
+    if found == False:
+        check = hash(m.data.tobytes())
+        if check in lookup:
+            found = True
+            i = cycles - (cycles - i) % (i - lookup[check])
+        else:
+            lookup[check] = i
+    i += 1
+show(m)

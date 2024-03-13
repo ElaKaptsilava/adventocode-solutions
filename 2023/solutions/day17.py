@@ -9,8 +9,8 @@ def complete_building_item(data):
     return item
 
 
-with open('../inputs/input17.txt') as file:
-    city_block = file.read().split('\n')
+with open("../inputs/input17.txt") as file:
+    city_block = file.read().split("\n")
     city_block_item = complete_building_item(city_block)
     print(city_block_item)
 
@@ -26,7 +26,7 @@ for _ in range(2):
     if step + current_building_heat_los < 4:
         for direction in directions:
             for i in range(1, current_building_heat_los + 1):
-                count += city_block_item.get(start+i)
+                count += city_block_item.get(start + i)
             step += current_building_heat_los
     print(step)
     print(count)

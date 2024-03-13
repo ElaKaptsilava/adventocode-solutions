@@ -52,7 +52,9 @@ def solution_2(rules_item, workflows_item):
     result = 0
     for workflow in workflows_item.split("\n"):
         workflows_item = complete_workflows(workflow)
-        is_allowed = [value for value in workflows_item.values() if int(value) in range(1, 4000)]
+        is_allowed = [
+            value for value in workflows_item.values() if int(value) in range(1, 4000)
+        ]
         if len(is_allowed) != len(workflows_item.values()):
             continue
         todo = list(rules_item)

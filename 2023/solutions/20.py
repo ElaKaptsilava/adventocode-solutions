@@ -18,7 +18,7 @@ class FlipFlop(Module):
         self.status = False
 
     def __repr__(self):
-        return f'FlipFlop({self.name}: outputs= {self.outputs}, status= {self.status}, send_pules= {self.send_pules})'
+        return f"FlipFlop({self.name}: outputs= {self.outputs}, status= {self.status}, send_pules= {self.send_pules})"
 
     def receive_pules(self, pules: bool) -> None:
         if not pules:
@@ -33,7 +33,7 @@ class Conjunction(Module):
         self.memory = dict()
 
     def __repr__(self):
-        return f'Conjunction({self.name}: inputs= {self.inputs}, outputs= {self.outputs}, send_pules= {self.send_pules}, memory= {self.memory})'
+        return f"Conjunction({self.name}: inputs= {self.inputs}, outputs= {self.outputs}, send_pules= {self.send_pules}, memory= {self.memory})"
 
     def receive_pules(self, pules: bool) -> None:
         memory = []
@@ -43,30 +43,30 @@ class Conjunction(Module):
 
 
 class Broadcaster(Module):
-    def __init__(self, name='Broadcaster'):
+    def __init__(self, name="Broadcaster"):
         super().__init__(name)
 
     def __repr__(self):
-        return f'Broadcaster(outputs= {self.outputs}, outputs= {self.outputs})'
+        return f"Broadcaster(outputs= {self.outputs}, outputs= {self.outputs})"
 
 
 def get_modules(file) -> dict:
     global queue_
     modules = dict()
-    for line in file.read().split('\n'):
-        input_, outputs_ = line.replace(' ', '').split('->')
+    for line in file.read().split("\n"):
+        input_, outputs_ = line.replace(" ", "").split("->")
         match input_[0]:
-            case 'b':
+            case "b":
                 broadcaster = Broadcaster()
-                broadcaster.outputs.extend(outputs_.split(','))
+                broadcaster.outputs.extend(outputs_.split(","))
                 queue_.append(broadcaster)
-            case '%':
+            case "%":
                 flipflop = FlipFlop(name=input_[1:])
-                flipflop.outputs.extend(outputs_.split(','))
+                flipflop.outputs.extend(outputs_.split(","))
                 modules[input_[1:]] = flipflop
-            case '&':
+            case "&":
                 conjunction = Conjunction(name=input_[1:])
-                conjunction.outputs.extend(outputs_.split(','))
+                conjunction.outputs.extend(outputs_.split(","))
                 modules[input_[1:]] = conjunction
         # for output in outputs_.split(','):
         #     if not modules.get(output):
@@ -76,7 +76,9 @@ def get_modules(file) -> dict:
 
 
 def set_inputs_for_conjunctions(moduls_item: dict[str, Conjunction | FlipFlop]) -> None:
-    conjunctions_moduls = list(filter(lambda module_: isinstance(module_, Conjunction), moduls_item.values()))
+    conjunctions_moduls = list(
+        filter(lambda module_: isinstance(module_, Conjunction), moduls_item.values())
+    )
     for conjunction in conjunctions_moduls:
         for name, module in moduls_item.items():
             if conjunction.name in module.outputs:
@@ -85,7 +87,7 @@ def set_inputs_for_conjunctions(moduls_item: dict[str, Conjunction | FlipFlop]) 
                     conjunction.memory[input_] = moduls_item.get(input_)
 
 
-with open('../inputs/input20.txt') as file:
+with open("../inputs/input20.txt") as file:
     queue_ = deque(maxlen=1800)
     modules = get_modules(file)
     set_inputs_for_conjunctions(modules)
@@ -103,8 +105,13 @@ with open('../inputs/input20.txt') as file:
                     low += 1
                 output_module = modules.get(output)
                 # print(module, output_module)
-                print(module.name, '->', 'HIGH' if pules_to_send else 'LOW', '->',
-                      output_module.name if output_module else output)
+                print(
+                    module.name,
+                    "->",
+                    "HIGH" if pules_to_send else "LOW",
+                    "->",
+                    output_module.name if output_module else output,
+                )
                 if output_module:
                     output_module.receive_pules(pules_to_send)
                     queue.append(output_module)

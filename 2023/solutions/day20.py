@@ -70,6 +70,7 @@ class Conjunction:
         first_received = [self.messages[i] for i in self.input_modules]
         return not all(first_received)
 
+
 class Broadcaster:
     def __init__(self, destinations):
         self.destinations = destinations
@@ -79,21 +80,23 @@ class Broadcaster:
         return f"Broadcaster(destination='{self.destinations}', pulses='{self.pulses}')"
 
 
-with open('../inputs/input20.txt') as file:
+with open("../inputs/input20.txt") as file:
     queue = deque(maxlen=1800)
     config = dict()
 
-    for line in file.read().split('\n'):
-        input_, outputs_ = line.replace(' ', '').split('->')
+    for line in file.read().split("\n"):
+        input_, outputs_ = line.replace(" ", "").split("->")
         match input_[0]:
-            case 'b':
-                broadcaster = Broadcaster(destinations=outputs_.split(','))
+            case "b":
+                broadcaster = Broadcaster(destinations=outputs_.split(","))
                 queue.append(broadcaster)
-            case '%':
-                flipflop = FlipFlop(name=input_[1:], destinations=outputs_.split(','))
+            case "%":
+                flipflop = FlipFlop(name=input_[1:], destinations=outputs_.split(","))
                 config[input_[1:]] = flipflop
-            case '&':
-                conjunction = Conjunction(name=input_[1:], destinations=outputs_.split(','))
+            case "&":
+                conjunction = Conjunction(
+                    name=input_[1:], destinations=outputs_.split(",")
+                )
                 config[input_[1:]] = conjunction
 
     high = 0
@@ -117,5 +120,3 @@ with open('../inputs/input20.txt') as file:
 
     print(high)
     print(low)
-
-
